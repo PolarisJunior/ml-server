@@ -17,7 +17,11 @@ server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
 server_socket.listen(10)
 
-def execute(funcId, args):
+def execute(func_id, data, args):
+    print(func_id)
+    for k in args:
+        print(k, args[k])
+    print(data)    
     pass
 
 def parse_next_arg(msg):
@@ -31,17 +35,13 @@ def parse_next_arg(msg):
 
     bytes_parsed = 4 + arg_name_len + 4
     return arg_name, value, bytes_parsed
-    
-def parse_next_sample(msg, dims):
-    pass
 
 
 def handle_connection(client_socket, client_addr):
     print("Accepted TCP Connection from ", client_addr)
-    # TODO change endianness stuff
-
+    client_socket.settimeout(TIMEOUT)
+    # TODO change endianness stuff maybe
     msg = client_socket.recv(BUF_SIZE)
-    print(msg)
 
     msg_len = int.from_bytes(msg[0:4], "big")
     func_id = int.from_bytes(msg[4:8], "big")
@@ -75,18 +75,12 @@ def handle_connection(client_socket, client_addr):
     if "dims" in args:
         sample_dims = args["dims"]
     
-    samples = []
     bytes_per_struct = FLOAT_BYTES * sample_dims
+    data = np.frombuffer(msg, dtype=">f4")
 
-    data = np.fromstring(msg, dtype=">f4")
-    print(msg_len, func_id, bytes_received)
-    for k in args:
-        print(k, args[k])
-    print(data)
+    execute(func_id, data, args)
 
-    client_socket.settimeout(TIMEOUT)
     client_socket.close()
-    pass
 
 while True:
     (client_socket, addr) = server_socket.accept()
