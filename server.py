@@ -22,9 +22,11 @@ server_socket.listen(10)
 
 # Data is formatted such that each row is one sample
 def execute(func_id, data, args):
+    # print("Received data: ", data)
     algo_class = ml_col.algorithms[func_id]
     algo_instance = algo_class(data, args)
     res = algo_instance.run()
+    print("Result: ", res)
     
     pass
 
@@ -86,7 +88,7 @@ def handle_connection(client_socket, client_addr):
 
     data = np.reshape(data, new_shape)
 
-    execute(func_id, data, args)
+    res = execute(func_id, data, args)
 
     client_socket.close()
 

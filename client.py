@@ -1,6 +1,7 @@
 import socket as socket
 import _thread as thread
 import struct
+import numpy as np
 
 SERVER_PORT = 12235
 CLIENT_PORT = 11111
@@ -31,11 +32,19 @@ def args_to_bytes(args):
 
     return res
 
-samples = [5.163, 32.93, 13.93, 42.0, 11.2, 13.5]
+# samples = [5.163, 32.93, 13.93,
+#            42.0, 11.2, 13.5,
+#            1.2, 2.3, 5.4,
+#            8.3, 2.0, 1.2,
+#            3.5, 4.8, 1.9,
+#            ]
+
+samples = np.random.rand(3 * 100)
+
 sample_bytes = struct.pack(">" + str(len(samples))+"f", *(samples))
 separator = (0).to_bytes(4, "big")
 
-args = { "k": 4, "n": 200, "dims": 3}
+args = { "k": 10, "n": 200, "dims": 3}
 args_bytes = args_to_bytes(args)
 payload = func_id.to_bytes(4, "big") + args_bytes + separator + sample_bytes
 msg_len = len(payload) + 4
