@@ -5,16 +5,20 @@ import _thread as thread
 import numpy as np
 import ml_modules
 import ml_collection as ml_col
+import sys
 
 # TODO take an arbitrary data format and arbitrary data matching that format and turn into bytes
 
-DEFAULT_PORT = 12235
 PORT = 12235
 TIMEOUT = 3.0
 BUF_SIZE = 4096
 FLOAT_BYTES = 4
 
 HOST = socket.gethostbyname(socket.gethostname())
+
+if len(sys.argv) == 2:
+    PORT = int(sys.argv[1])
+print("Running on Port ", PORT)
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.bind((HOST, PORT))
