@@ -24,6 +24,7 @@ KMeans
 
 # AI #
 
+# Extending #
 To add new algorithms, a class extending MlBase must be added under the **ml_modules** folder, and the class member variable algo_id must be set to some integer. Only classes under this folder will be detected as a valid algorithm
 
 # TODO #
