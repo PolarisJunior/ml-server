@@ -4,6 +4,7 @@ arbitrary datasets
 
 The client opens a TCP connection to the server and sends a request with a specific protocol to the server, with the data to be processed at the end of the request payload. The server will then process the data with the specified algorithms, and return the result. The protocol is described below.
 
+# Protocol
 First note that all integers and floats are stored in big-endian
 
 The first 4 bytes is an integer denoting the entire length in bytes of the request, including these 4 bytes themselves. 
@@ -15,6 +16,8 @@ Next, an arbitrarily long sequence of (argument name, value) pairs. That is, the
 Lastly, the data to be processed is simply a sequence of 4 byte floats. The data will be interpreted and processed by the server based on the arguments previously provided. For example, ML typically deals with vectors rather than individual floats, so
 providing the pair (dims, 3) will tell the server to interpret each 3 consecutive floats as one vector.
 
+The result returned by the server has different interpretations depending on the algorithm and arguments provided, but will typically be a sequence of floats
+
 Current Available Algorithms (In the ml_modules folder)
 # Machine Learning #
 KMeans
@@ -23,7 +26,7 @@ KMeans
 
 To add new algorithms, a class extending MlBase must be added under the **ml_modules** folder, and the class member variable algo_id must be set to some integer. Only classes under this folder will be detected as a valid algorithm
 
-TODO
+# TODO #
 * Allow creating a processing pipeline by specifying multiple algorithms to run sequentially
 * Instead of reading the client message entirely to memory, stream the data
 * Use strings as identifiers for algorithms rather than arbitrary integers
