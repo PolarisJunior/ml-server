@@ -36,3 +36,4 @@ To add new algorithms, a class extending MlBase must be added under the **ml_mod
 * Allow arguments to have strings as values
 * Allow arguments to have floats as values
 * Possibly have a way to define arguments to algorithms in a way such that the server determines how to interpret the argument value as a float or integer. That is, creating a mapping from argument names to types
+* Add JSON support
